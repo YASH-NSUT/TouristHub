@@ -1,0 +1,124 @@
+<%- include("../partials/header") %>
+
+   <div class="container">
+      <div class="row">
+         <div class="col-md-3">
+            <div class="list-group">
+               <div
+                  class="list-group-item list-group-item-action flex-column align-items-start list-group-item-warning">
+                  <div class="d-flex w-100 justify-content-between">
+                     <h5 class="mb-1">
+                        Location
+                     </h5>
+                  </div>
+                  <p class="mb-1">
+                     <%=touristHub.location%>
+                  </p>
+               </div>
+               <div
+                  class="list-group-item list-group-item-action flex-column align-items-start list-group-item-success">
+                  <div class="d-flex w-100 justify-content-between">
+                     <h5 class="mb-1">
+                        Current Weather Update :
+                     </h5>
+                  </div>
+               </div>
+               <div class="list-group-item list-group-item-action flex-column align-items-start">
+                  <div class="d-flex w-100 justify-content-between">
+                     <h5 class="mb-1">Temperature</h5>
+                     <p class="mb-1">
+                        <%=weatherInfo.temperature%> °C
+                           <i class="bi bi-thermometer-half mr-2"></i>
+                     </p>
+                  </div>
+               </div>
+               <div class="list-group-item list-group-item-action flex-column align-items-start">
+                  <div class="d-flex w-100 justify-content-between">
+                     <h5 class="mb-1"> Windspeed </h5>
+                     <p class="mb-1">
+                        <%=weatherInfo.wind_speed%> km/hr
+                           <i class="bi bi-wind mr-1"></i>
+                     </p>
+                  </div>
+               </div>
+               <div class="list-group-item list-group-item-action flex-column align-items-start">
+                  <div class="d-flex w-100 justify-content-between">
+                     <h5 class="mb-1"> Humidity </h5>
+                     <p class="mb-1">
+                        <%=weatherInfo.humidity%> %
+                           <i class="bi bi-cloud-fill"></i>
+                     </p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class=" col-md-9">
+            <div class="card">
+               <img class="card-img-top " src="<%= touristHub.image %>">
+               <div class="card-body">
+                  <div class="card-title">
+                     <h4>
+                        <a>
+                           <%= touristHub.name %>
+                        </a>
+                        <span class="float-right">
+                           <h5><em>₹<%= touristHub.price %></em></h5>
+                        </span>
+                     </h4>
+                  </div>
+                  <p class="card-text">
+                     <%= touristHub.description %>
+                  </p>
+                  <p class="float-right"><em>by <%=touristHub.author.username%></em></p>
+                  <% if(currentUser && touristHub.author.id.equals(currentUser._id)){ %>
+                     <a class="btn btn-sm btn-warning " href="/touristHubs/<%= touristHub._id %>/edit">Edit</a>
+                     <form class="form-inline" action="/touristHubs/<%=touristHub._id%>/?_method=DELETE" method="POST">
+                        <button class="btn btn-sm btn-danger">Delete</button>
+                     </form>
+                     <% } %>
+               </div>
+            </div>
+            <div class="card bg-light" id="comment">
+               <div class="row">
+                  <div class="col text-left">
+                     <h2>Comments</h2>
+                  </div>
+                  <div class="col text-right">
+                     <a class="btn btn-info" href="<%= touristHub._id %>/comments/new">Add new
+                        comment</a>
+                  </div>
+               </div>
+               <hr>
+               <div class="row">
+                  <div class="col-md-12">
+                     <% touristHub.comments.forEach(function(comment){ %>
+                        <h5>
+                           <i class="bi bi-person-fill"></i>
+                           <%= comment.author.username %>
+                              <span class="float-right">
+                                 <%=date.format(comment.date, 'ddd, MMM DD YYYY' )%>
+                              </span>
+                        </h5>
+                        <p>
+                           <i class="bi bi-chat-right-text-fill mr-2"></i>
+                           <%= comment.text %>
+                        </p>
+                        <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                           <a class="btn btn-sm btn-warning"
+                              href="/touristHubs/<%= touristHub._id %>/comments/<%= comment._id %>/edit">Edit</a>
+                           <form class="form-inline"
+                              action="/touristHubs/<%= touristHub._id %>/comments/<%= comment._id %>?_method=DELETE"
+                              method="POST">
+                              <button class="btn btn-sm btn-danger">Delete</button>
+                           </form>
+                           <% } %>
+                              <hr>
+                              <% }) %>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <%- include("../partials/footer") %>

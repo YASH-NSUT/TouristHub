@@ -1,0 +1,35 @@
+<%- include("../partials/header") %>
+
+   <div class="container">
+      <header class="jumbotron">
+         <div>
+            <h1>Welcome to TouristHub</h1>
+            <p>
+               Get all travel information related to Indian cities, tourist attractions, travel destinations,
+               ... sites, rich wildlife, and colourful fairs capture the heart of every tourist.
+               Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
+               consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+            </p>
+            <p>
+               <a class=" btn btn-outline-dark btn-lg" href="/touristHubs/new">Add New TouristHub</a>
+            </p>
+         </div>
+      </header>
+
+      <div class="row">
+         <% touristHubs.forEach(function(touristHub){ %>
+            <div class="col-md-4 col-sm-6">
+               <figure class="figure text-center pb-2">
+                  <img src="<%= touristHub.image %>" class="figure-img img-fluid rounded"
+                     alt="A generic square placeholder image with rounded corners in a figure.">
+                  <h3>
+                     <%= touristHub.name %>
+                  </h3>
+                  <a href="/touristHubs/<%= touristHub.id %>" class="btn btn-danger">Show More</a>
+               </figure>
+            </div>
+            <% }); %>
+      </div>
+   </div>
+
+   <%- include("../partials/footer") %>
